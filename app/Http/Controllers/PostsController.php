@@ -16,7 +16,7 @@ class PostsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth');
     }
 
     /**
@@ -32,7 +32,7 @@ class PostsController extends Controller
         //$posts = Post::orderBy('title','desc')->take(1)->get();
         //$posts = Post::orderBy('title','desc')->get();
 
-        $posts = Post::orderBy('created_at','desc')->paginate(10);
+        $posts = Post::orderBy('created_at','desc')->paginate(5);
         return view('posts.index')->with('posts', $posts);
     }
 
@@ -56,8 +56,8 @@ class PostsController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'body' => 'required',
-            'cover_image' => 'image|nullable|max:1999'
+            'body' => 'required'
+            // 'cover_image' => 'image|nullable|max:1999'
         ]);
 
         // Handle File Upload
@@ -76,12 +76,29 @@ class PostsController extends Controller
             $fileNameToStore = 'noimage.jpg';
         }
 
+        // Handle File Upload
+        if($request->hasFile('upload_video')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('upload_video')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('upload_video')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore2= $filename.'_'.time().'.'.$extension;
+            // Upload Image
+            $path = $request->file('upload_video')->storeAs('public/upload_video', $fileNameToStore2);
+        } else {
+            $fileNameToStore2 = 'novideo.mp4';
+        }
+
         // Create Post
         $post = new Post;
         $post->title = $request->input('title');
         $post->body = $request->input('body');
         $post->user_id = auth()->user()->id;
         $post->cover_image = $fileNameToStore;
+        $post->upload_video = $fileNameToStore2;
         $post->save();
 
         return redirect('/posts')->with('success', 'Post Created');
@@ -145,6 +162,20 @@ class PostsController extends Controller
             $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
         }
 
+        // Handle File Upload
+        if($request->hasFile('upload_video')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('upload_video')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('upload_video')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore2= $filename.'_'.time().'.'.$extension;
+            // Upload Image
+            $path = $request->file('upload_video')->storeAs('public/upload_video', $fileNameToStore2);
+        }
+
         // Create Post
         $post = Post::find($id);
         $post->title = $request->input('title');
@@ -152,10 +183,15 @@ class PostsController extends Controller
         if($request->hasFile('cover_image')){
             $post->cover_image = $fileNameToStore;
         }
+        if($request->hasFile('upload_video')){
+            $post->upload_video = $fileNameToStore2;
+        }
         $post->save();
 
         return redirect('/posts')->with('success', 'Post Updated');
     }
+
+    
 
     /**
      * Remove the specified resource from storage.
@@ -175,6 +211,11 @@ class PostsController extends Controller
         if($post->cover_image != 'noimage.jpg'){
             // Delete Image
             Storage::delete('public/cover_images/'.$post->cover_image);
+        }
+
+        if($post->upload_video != 'novideo.mp4'){
+            // Delete Video
+            Storage::delete('public/upload_video/'.$post->upload_video);
         }
         
         $post->delete();

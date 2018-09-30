@@ -12,7 +12,7 @@
 
             <!-- Branding Image -->
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
+                <img style="width: 25px; height:25px;" src="https://images.all-free-download.com/images/graphiclarge/handball_ball_clip_art_15715.jpg">
             </a>
         </div>
 
@@ -24,9 +24,9 @@
 
             <ul class="nav navbar-nav">
               <li><a href="/">Home</a></li>
-              <li><a href="/about">About</a></li>
-              <li><a href="/services">Services</a></li>
-              <li><a href="/posts">Blog</a></li>
+              <li><a href="/about">O nas</a></li>
+              <li><a href="/services">Usługi</a></li>
+              <li><a href="/posts">Mecze</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -41,8 +41,13 @@
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
-                        <ul class="dropdown-menu" role="menu">
+                             <ul class="dropdown-menu" role="menu">
                             <li><a href="/dashboard">Dashboard</a></li>
+                            <li>
+                                    <a href="{{ route('profile',['slug' => Auth::user()->slug]) }}">
+                                        Moj profil
+                                    </a>
+                            </li>
                             <li>
                                 <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();

@@ -30,3 +30,26 @@ Route::resource('posts', 'PostsController');
 Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/profile/{slug}',[
+        'uses' => 'ProfilesController@index',
+        'as' => 'profile'
+    ]);
+
+    Route::get('/profile/edit/profile',[
+        'uses' => 'ProfilesController@edit',
+        'as' => 'profile.edit'
+    ]);
+
+    Route::post('/profile/update/profile',[
+        'uses' => 'ProfilesController@update',
+        'as' => 'profile.update'
+    ]);
+});
+
+
+
+Route::resource('comment','CommentController',['only'=>['update','destroy']]);
+
+Route::post('comment/create/{post}','CommentController@addPostComment')->name('postcomment.store');

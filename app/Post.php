@@ -14,6 +14,10 @@ class Post extends Model
     public $timestamps = true;
 
     public function user(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
+    }
+
+    public function comments(){
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }
