@@ -11,13 +11,13 @@
                     </div>
                     <div class="col-md-8 col-sm-8">
                         <h3><a href="/posts/{{$post->id}}">{{$post->title}}</a></h3>
-                        <small>Written on {{$post->created_at}} by {{$post->user->name}}</small>
+                        <small>Dodano {{$post->created_at}} przez {{$post->user->name}}</small>
                     </div>
                 </div>
             </div>
         @endforeach
         {{$posts->links()}}
     @else
-        <p>No posts found</p>
+        <p>Nie znaleziono żadnych meczy</p>
     @endif
 @endsection

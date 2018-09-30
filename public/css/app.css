@@ -6223,11 +6223,14 @@ a.badge:focus {
 }
 
 .jumbotron {
+  height: 50vh;
   padding-top: 30px;
+  background: url('/storage/default/img/jurecki.jpg') no-repeat;
+  background-size: 100%;
   padding-bottom: 30px;
   margin-bottom: 30px;
-  color: inherit;
-  background-color: #eeeeee;
+  color: #fff;
+  background-color: #000000;
 }
 
 .jumbotron h1,

@@ -12,7 +12,7 @@
 
             <!-- Branding Image -->
             <a class="navbar-brand" href="{{ url('/') }}">
-                <img style="width: 25px; height:25px;" src="https://images.all-free-download.com/images/graphiclarge/handball_ball_clip_art_15715.jpg">
+                <img style="width: 25px; height:25px;" src="/storage/default/img/pilka-logo.jpg">
             </a>
         </div>
 
@@ -23,7 +23,7 @@
             </ul>
 
             <ul class="nav navbar-nav">
-              <li><a href="/">Home</a></li>
+              <li><a href="/">Strona głowna</a></li>
               <li><a href="/about">O nas</a></li>
               <li><a href="/services">Usługi</a></li>
               <li><a href="/posts">Mecze</a></li>

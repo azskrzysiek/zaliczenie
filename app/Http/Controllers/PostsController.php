@@ -96,6 +96,8 @@ class PostsController extends Controller
         $post = new Post;
         $post->title = $request->input('title');
         $post->body = $request->input('body');
+        $post->goals_h = $request->input('goals_h');
+        $post->goals_a = $request->input('goals_a');
         $post->user_id = auth()->user()->id;
         $post->cover_image = $fileNameToStore;
         $post->upload_video = $fileNameToStore2;
@@ -180,6 +182,8 @@ class PostsController extends Controller
         $post = Post::find($id);
         $post->title = $request->input('title');
         $post->body = $request->input('body');
+        $post->goals_h = $request->input('goals_h');
+        $post->goals_a = $request->input('goals_a');
         if($request->hasFile('cover_image')){
             $post->cover_image = $fileNameToStore;
         }
